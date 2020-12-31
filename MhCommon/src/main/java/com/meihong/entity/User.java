@@ -8,6 +8,15 @@ public class User {
     private Integer phone;
     private String address;
     private String nickName;
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNickName() {
         return nickName;
