@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.GoodCategoryDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.GoodCategory">
+        <id column="categoryid" property="categoryId" jdbcType="BIGINT"/>
+        <result column="categoryname" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="categorystatus" property="categoryStatus" jdbcType="BIGINT"/>
+        <result column="parentcategoryid" property="parentCategoryId" jdbcType="BIGINT"/>
+
+        <!--配置1对多关系映射
+          property：在GoodCategory里面的List<GoodInfo>的属性名
+          ofType:当前goodinfo表的java类型
+          column:外键
+      -->
+        <collection property="goodInfos" ofType="com.meihong.entity.GoodInfo" column="categoryid">
+            <id column="goodid" property="goodId" jdbcType="BIGINT"/>
+            <result column="goodname" property="goodName" jdbcType="VARCHAR"/>
+            <result column="goodunit" property="goodUnit" jdbcType="VARCHAR"/>
+            <result column="goodprice" property="goodPrice" jdbcType="DOUBLE"/>
+            <result column="gooddescribe" property="goodDescribe" jdbcType="VARCHAR"/>
+            <result column="categoryid" property="categoryId" jdbcType="INTEGER"/>
+            <result column="brandcode" property="brandCode" jdbcType="VARCHAR"/>
+            <result column="goodpicture" property="goodPicture" jdbcType="VARCHAR"/>
+            <result column="goodsummary" property="goodSummary" jdbcType="VARCHAR"/>
+            <result column="goodcarousel" property="goodCarousel" jdbcType="VARCHAR"/>
+        </collection>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        categoryid,categoryname,categorystatus,parentcategoryid
+    </sql>
+
+    <select id="findCategoryAndGooInfoAll" resultMap="BaseResultMap"  >
+       SELECT
+          a.categoryid,
+          a.categoryname,
+          b.goodid,
+          b.goodname,
+          b.goodunit,
+          b.goodprice,
+          b.gooddescribe,
+          b.categoryid,
+          b.brandcode,
+          b.goodpicture,
+          b.goodsummary,
+          b.goodcarousel
+       FROM goodcategory a
+       LEFT JOIN goodinfo b on a.categoryid=b.categoryid
+
+    </select>
+
+</mapper>
