@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.OrderDetailDao">
+    <resultMap id="BaseResultMap" type="com.meihong.entity.OrderDetail">
+        <id column="orderid" property="orderId" jdbcType="INTEGER"/>
+        <result column="goodid" property="goodId" jdbcType="BIGINT"/>
+        <result column="goodname" property="goodName" jdbcType="VARCHAR"/>
+        <result column="goodunit" property="goodUnit" jdbcType="VARCHAR"/>
+        <result column="salecount" property="saleCount" jdbcType="NUMERIC"/>
+        <result column="saleprice" property="salePrice" jdbcType="NUMERIC"/>
+        <result column="saleamount" property="saleAmount" jdbcType="NUMERIC"/>
+        <result column="goodpicture" property="goodPicture" jdbcType="VARCHAR"/>
+        <result column="gooddescribe" property="goodDescribe" jdbcType="VARCHAR"/>
+    </resultMap>
+  <sql id="Base_Column_List">
+     orderid,goodid,goodname,goodunit,salecount,saleprice,saleamount,goodpicture,gooddescribe
+  </sql>
+
+  <insert id="saveOrderDetail" parameterType="com.meihong.entity.OrderDetail">
+        insert into orderdetail (
+         orderid,goodid,goodname,goodunit,salecount,saleprice,saleamount,goodpicture,gooddescribe
+        ) values (
+         #{orderId},#{goodId},#{goodName},#{goodUnit},#{saleCount},#{salePrice},#{saleAmount},#{goodPicture},#{goodDescribe}
+        )
+  </insert>
+
+<select id="findDetailsByOrderId"  parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from orderdetail
+    where orderid = #{orderId,jdbcType=INTEGER}
+</select>
+
+
+</mapper>

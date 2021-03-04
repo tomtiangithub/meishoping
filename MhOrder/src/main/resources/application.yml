@@ -1,2 +1,26 @@
 server:
   port: 7005
+spring:
+  application:
+    name: MhOrder
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    #driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包
+    url: jdbc:mysql://192.168.1.101:3306/mhshopdb?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.101:8848
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.meihong.entity   # 所有Entity别名类所在包# pagehelper
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

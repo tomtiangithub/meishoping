@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.CartInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.CartInfo">
+        <id column="goodid" property="goodId" jdbcType="BIGINT"/>
+        <result column="goodname" property="goodName" jdbcType="VARCHAR"/>
+        <result column="goodunit" property="goodUnit" jdbcType="VARCHAR"/>
+        <result column="goodprice" property="goodPrice" jdbcType="DOUBLE"/>
+        <result column="gooddescribe" property="goodDescribe" jdbcType="VARCHAR"/>
+        <result column="categoryid" property="categoryId" jdbcType="INTEGER"/>
+        <result column="brandcode" property="brandCode" jdbcType="VARCHAR"/>
+        <result column="goodpicture" property="goodPicture" jdbcType="VARCHAR"/>
+        <result column="goodsummary" property="goodSummary" jdbcType="VARCHAR"/>
+        <result column="goodcarousel" property="goodCarousel" jdbcType="VARCHAR"/>
+        <result column="goodnum" property="goodNum" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      goodid,goodname,goodunit,goodprice,gooddescribe,categoryid,brandcode,goodpicture,goodsummary,goodcarousel,goodnum
+   </sql>
+
+    <insert id="addCartInfo" parameterType="com.meihong.entity.CartInfo">
+        insert into cartinfo (
+         <include refid="Base_Column_List" />
+        ) values (
+         #{goodId},#{goodName},#{goodUnit},#{goodPrice},#{goodDescribe},
+         #{categoryId},#{brandCode},#{goodPicture},#{goodSummary},#{goodCarousel},#{goodNum}
+        )
+  </insert>
+    <select id="findCartAll" resultMap="BaseResultMap">
+        select
+           goodid,goodname,goodunit,goodprice,gooddescribe,categoryid,brandcode,goodpicture,goodsummary,goodcarousel
+        from cartinfo
+    </select>
+    <delete id="deleteCartInfoById" parameterType="int">
+      delete  from  cartinfo where goodid=#{goodId}
+
+    </delete>
+
+    <select id="findCartPage"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cartinfo
+    </select>
+    <select id="findCartInfoById" parameterType="Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cartinfo where goodid = #{goodId}
+    </select>
+
+</mapper>

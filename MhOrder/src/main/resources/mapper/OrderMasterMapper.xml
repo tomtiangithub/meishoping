@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.OrderMasterDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.OrderMaster">
+        <id column="orderid" property="orderId" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberId" jdbcType="INTEGER"/>
+        <result column="ordertype" property="orderType" jdbcType="VARCHAR"/>
+        <result column="orderamount" property="orderAmount" jdbcType="DOUBLE"/>
+        <result column="ordertime" property="orderTime" jdbcType="VARCHAR"/>
+        <result column="orderstatus" property="orderStatus" jdbcType="VARCHAR"/>
+        <result column="consignee" property="consignee" jdbcType="VARCHAR"/>
+        <result column="consigneenumber" property="consigneeNumber" jdbcType="VARCHAR"/>
+        <result column="consigneeaddress" property="consigneeAddress" jdbcType="VARCHAR"/>
+        <result column="refno" property="refno" jdbcType="VARCHAR"/>
+        <result column="deliveryno" property="deliveryNo" jdbcType="VARCHAR"/>
+        <result column="deliverytime" property="deliveryTime" jdbcType="VARCHAR"/>
+        <result column="deliverycompanycode" property="deliveryCompanyCode" jdbcType="VARCHAR"/>
+
+        <!--配置1对多关系映射
+            property：在GoodCategory里面的List<GoodInfo>的属性名
+            ofType:当前goodinfo表的java类型
+            colum n:外键
+        -->
+        <collection property="orderDetails" ofType="com.meihong.entity.OrderDetail" column="orderid">
+            <id column="orderid" property="orderId" jdbcType="INTEGER"/>
+            <result column="goodid" property="goodId" jdbcType="BIGINT"/>
+            <result column="goodname" property="goodName" jdbcType="VARCHAR"/>
+            <result column="goodunit" property="goodUnit" jdbcType="VARCHAR"/>
+            <result column="salecount" property="saleCount" jdbcType="NUMERIC"/>
+            <result column="saleprice" property="salePrice" jdbcType="NUMERIC"/>
+            <result column="saleamount" property="saleAmount" jdbcType="NUMERIC"/>
+        </collection>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+         orderid,memberid,ordertype,orderamount,ordertime,
+         orderstatus,consignee,consigneenumber,consigneeaddress,
+         refno,deliveryno,deliverytime,deliverycompanycode
+   </sql>
+
+
+    <insert id="saveOrderMaster" parameterType="com.meihong.entity.OrderMaster" useGeneratedKeys="true" keyProperty="orderId">
+      insert into ordermaster
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="orderId != null">
+                orderid,
+            </if>
+
+            <if test="memberId != null">
+                memberid,
+            </if>
+            <if test="orderType != null">
+                ordertype,
+            </if>
+            <if test="orderAmount != null">
+                orderamount,
+            </if>
+
+            <if test="orderTime != null">
+                ordertime,
+            </if>
+            <if test="orderStatus != null">
+                orderstatus,
+            </if>
+            <if test="consignee != null">
+                consignee,
+            </if>
+            <if test="consigneeNumber != null">
+                consigneenumber,
+            </if>
+            <if test="consigneeAddress != null">
+                consigneeaddress,
+            </if>
+            <if test="refno != null">
+                refno,
+            </if>
+            <if test="deliveryNo != null">
+                deliveryno,
+            </if>
+            <if test="deliveryTime != null">
+                deliverytime,
+            </if>
+            <if test="deliveryCompanyCode != null">
+                deliverycompanycode,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="memberId != null">
+                #{memberId,jdbcType=INTEGER},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="orderAmount != null">
+               #{orderAmount,jdbcType=DOUBLE},
+            </if>
+
+            <if test="orderTime != null">
+               #{orderTime,jdbcType=VARCHAR},
+            </if>
+
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=VARCHAR},
+            </if>
+
+            <if test="consignee != null">
+                #{consignee,jdbcType=VARCHAR},
+            </if>
+            <if test="consigneeNumber != null">
+               #{consigneeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="consigneeAddress != null">
+               #{consigneeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="refno != null">
+                #{refno,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryNo != null">
+                #{deliveryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryTime != null">
+                #{deliveryTime,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryCompanyCode != null">
+                #{deliveryCompanyCode,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByOrderId" parameterType="com.meihong.entity.OrderMaster" resultType="Integer">
+        select orderid
+        from ordermaster
+        where
+          orderid = #{orderId,jdbcType=INTEGER}
+        <if test="memberId != null">
+            and memberid = #{memberId,jdbcType=INTEGER}
+        </if>
+        <if test="orderType != null">
+            and ordertype = #{orderType,jdbcType=VARCHAR}
+        </if>
+
+       <if test="orderAmount != null">
+           and orderamount = #{orderAmount,jdbcType=DOUBLE}
+        </if>
+
+        <if test="orderTime != null">
+            and  ordertime = #{orderTime,jdbcType=VARCHAR}
+        </if>
+
+        <if test="orderStatus != null">
+            and   orderstatus = #{orderStatus,jdbcType=VARCHAR}
+        </if>
+
+        <if test="consignee != null">
+            and  consignee = #{consignee,jdbcType=VARCHAR}
+        </if>
+
+        <if test="consigneeNumber != null">
+            and consigneenumber = #{consigneeNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="consigneeAddress != null">
+            and  consigneeaddress = #{consigneeAddress,jdbcType=VARCHAR}
+        </if>
+        <if test="refno != null">
+            and  refno = #{refno,jdbcType=VARCHAR}
+        </if>
+        <if test="deliveryNo != null">
+            and deliveryNo = #{deliveryNo,jdbcType=VARCHAR}
+        </if>
+        <if test="deliveryTime != null">
+            and  deliveryTime = #{deliveryTime,jdbcType=VARCHAR}
+        </if>
+        <if test="deliveryCompanyCode != null">
+            and  deliveryCompanyCode = #{deliveryCompanyCode,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <select id="findOrderById" parameterType="Integer"   resultMap="BaseResultMap">
+        SELECT
+            m.orderid,
+            m.memberid,
+            m.ordertype,
+            m.orderamount,
+            m.ordertime,
+            m.orderstatus,
+            m.consignee,
+            m.consigneenumber,
+            m.consigneeaddress,
+            m.refno,
+            m.deliveryno,
+            m.deliverytime,
+            m.deliverycompanycode,
+            s.orderid,
+            s.goodid,
+            s.goodname,
+            s.goodunit,
+            s.salecount,
+            s.saleprice,
+            s.saleamount
+        FROM ordermaster m,
+             orderdetail s
+        WHERE s.orderid=m.orderid
+        AND
+            m.orderid= #{orderId}
+    </select>
+</mapper>
