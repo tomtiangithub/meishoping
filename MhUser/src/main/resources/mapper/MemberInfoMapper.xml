@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.MemberInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.MemberInfo">
+        <id column="memberid" property="memberId" jdbcType="INTEGER"/>
+        <result column="memberphone" property="memberPhone" jdbcType="VARCHAR"/>
+        <result column="memberpwd" property="memberPwd" jdbcType="VARCHAR"/>
+        <result column="createtime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="membericon" property="memberIcon" jdbcType="VARCHAR"/>
+        <result column="memberstatus" property="memberStatus" jdbcType="INTEGER"/>
+        <result column="membername" property="memberName" jdbcType="VARCHAR"/>
+        <result column="membertype" property="memberType" jdbcType="VARCHAR"/>
+        <result column="accountcode" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="phoneprovince" property="phoneProvince" jdbcType="VARCHAR"/>
+        <result column="memberlvl" property="memberLvl" jdbcType="INTEGER"/>
+        <result column="recommendcode" property="recommendCode" jdbcType="VARCHAR"/>
+        <result column="agentrecommendcode" property="agentreCommendCode" jdbcType="VARCHAR"/>
+        <result column="recommendtype" property="recommendType" jdbcType="VARCHAR"/>
+        <result column="parentrecommendcode" property="parentreCommendCode" jdbcType="VARCHAR"/>
+        <result column="isvirtual" property="isVirtual" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        memberid,
+        memberphone,
+        memberpwd,
+        createtime,
+        membericon,
+        memberstatus,
+        membername,
+        membertype,
+        accountcode,
+        phoneprovince,
+        memberlvl,
+        recommendcode,
+        agentrecommendcode,
+        recommendtype,
+        parentrecommendcode,
+        isvirtual,
+        salt
+
+   </sql>
+    <insert id="insertMember" parameterType="com.meihong.entity.MemberInfo">
+        insert into memberinfo(
+        <include refid="Base_Column_List" />
+        ) values(
+            #{memberId},
+            #{memberPhone},
+            #{memberPwd},
+            #{createTime},
+            #{memberIcon},
+            #{memberStatus},
+            #{memberName},
+            #{memberType},
+            #{accountCode},
+            #{phoneProvince},
+            #{memberLvl},
+            #{recommendCode},
+            #{agentreCommendCode},
+            #{recommendType},
+            #{parentreCommendCode},
+            #{isVirtual},
+            #{salt}
+        )
+    </insert>
+
+    <select id="findMember"  parameterType="String" resultType="com.meihong.entity.MemberInfo">
+        select
+        <include refid="Base_Column_List" />
+        from memberinfo
+        where membername=#{arg0}
+
+    </select>
+
+    <select id="findMemberByName" parameterType="String"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from memberinfo
+        where membername = #{memberName}
+    </select>
+
+    <select id="findById"  parameterType="Integer" resultType="com.meihong.entity.MemberInfo">
+        select
+        <include refid="Base_Column_List" />
+        from memberinfo
+        where memberid = #{memberId,jdbcType=INTEGER}
+
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from memberinfo
+        where memberid = #{memberId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      delete from memberinfo
+      where memberid = #{memberId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.meihong.entity.MemberInfo">
+        insert into memberinfo(
+        <include refid="Base_Column_List" />
+        ) values(
+        #{memberId},
+        #{memberPhone},
+        #{memberPwd},
+        #{createTime},
+        #{memberIcon},
+        #{memberStatus},
+        #{memberName},
+        #{memberType},
+        #{accountCode},
+        #{phoneProvince},
+        #{memberLvl},
+        #{recommendCode},
+        #{agentreCommendCode},
+        #{recommendType},
+        #{parentreCommendCode},
+        #{isVirtual},
+        #{salt}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.meihong.entity.MemberInfo">
+        insert into memberinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                memberid,
+            </if>
+            <if test="memberPhone != null">
+                memberphone,
+            </if>
+            <if test="memberPwd != null">
+                memberpwd,
+            </if>
+            <if test="createTime != null">
+                createtime,
+            </if>
+            <if test="memberIcon != null">
+                membericon,
+            </if>
+            <if test="memberStatus != null">
+                memberstatus,
+            </if>
+            <if test="memberName != null">
+                membername,
+            </if>
+            <if test="memberType != null">
+                membertype,
+            </if>
+            <if test="accountCode != null">
+                accountcode,
+            </if>
+            <if test="phoneProvince != null">
+                phoneprovince,
+            </if>
+            <if test="memberLvl != null">
+                memberlvl,
+            </if>
+            <if test="recommendCode != null">
+                recommendcode,
+            </if>
+            <if test="agentreCommendCode != null">
+                agentrecommendcode,
+            </if>
+            <if test="recommendType != null">
+                recommendtype,
+            </if>
+            <if test="parentreCommendCode != null">
+                parentrecommendcode,
+            </if>
+            <if test="isVirtual != null">
+                isvirtual,
+            </if>
+            <if test="salt != null">
+                salt
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">
+                #{memberId},
+            </if>
+            <if test="memberPhone != null">
+                #{memberPhone},
+            </if>
+            <if test="memberPwd != null">
+                #{memberPwd},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="memberIcon != null">
+                #{memberIcon},
+            </if>
+            <if test="memberStatus != null">
+                #{memberStatus},
+            </if>
+            <if test="memberName != null">
+                #{memberName},
+            </if>
+            <if test="memberType != null">
+                #{memberType},
+            </if>
+            <if test="accountCode != null">
+                #{accountCode},
+            </if>
+            <if test="phoneProvince != null">
+                #{phoneProvince},
+            </if>
+            <if test="memberLvl != null">
+                #{memberLvl},
+            </if>
+            <if test="recommendCode != null">
+                #{recommendCode},
+            </if>
+            <if test="agentreCommendCode != null">
+                #{agentreCommendCode},
+            </if>
+            <if test="recommendType != null">
+                #{recommendType},
+            </if>
+            <if test="parentreCommendCode != null">
+                #{parentreCommendCode},
+            </if>
+            <if test="isVirtual != null">
+                #{isVirtual},
+            </if>
+            <if test="salt != null">
+                #{salt}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.meihong.entity.MemberInfo">
+        update memberinfo
+        <set>
+
+            <if test="memberId != null">
+                memberid = #{memberId},
+            </if>
+            <if test="memberPhone != null">
+                memberphone = #{memberPhone},
+            </if>
+            <if test="memberPwd != null">
+                memberpwd = #{memberPwd},
+            </if>
+            <if test="createTime != null">
+                createtime = #{createTime},
+            </if>
+            <if test="memberIcon != null">
+                membericon = #{memberIcon},
+            </if>
+            <if test="memberStatus != null">
+                memberstatus = #{memberStatus},
+            </if>
+            <if test="memberName != null">
+                membername = #{memberName},
+            </if>
+            <if test="memberType != null">
+                membertype = #{memberType},
+            </if>
+            <if test="accountCode != null">
+                accountcode = #{accountCode},
+            </if>
+            <if test="phoneProvince != null">
+                phoneprovince = #{phoneProvince},
+            </if>
+            <if test="memberLvl != null">
+                memberlvl = #{memberLvl},
+            </if>
+            <if test="recommendCode != null">
+                recommendcode = #{recommendCode},
+            </if>
+            <if test="agentreCommendCode != null">
+                agentrecommendcode = #{agentreCommendCode},
+            </if>
+            <if test="recommendType != null">
+                recommendtype = #{recommendType},
+            </if>
+            <if test="parentreCommendCode != null">
+                parentrecommendcode = #{parentreCommendCode},
+            </if>
+            <if test="isVirtual != null">
+                isvirtual = #{isVirtual},
+            </if>
+            <if test="salt != null">
+                salt = #{salt}
+            </if>
+        </set>
+        where memberid =  #{memberId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.meihong.entity.MemberInfo">
+    update memberinfo
+    set
+          memberid = #{memberId},
+          memberphone = #{memberPhone},
+          memberpwd = #{memberPwd},
+          createtime = #{createTime},
+          membericon = #{memberIcon},
+          memberstatus = #{memberStatus},
+          membername = #{memberName},
+          membertype = #{memberType},
+          accountcode = #{accountCode},
+          phoneprovince = #{phoneProvince},
+          memberlvl = #{memberLvl},
+          recommendcode = #{recommendCode},
+          agentrecommendcode = #{agentreCommendCode},
+          recommendtype = #{recommendType},
+          parentrecommendcode = #{parentreCommendCode},
+          isvirtual = #{isVirtual},
+          salt = #{salt}
+    where memberid =  #{memberId}
+  </update>
+   <select id="findPage" resultMap="BaseResultMap">
+    select
+     u.*
+    from memberinfo u
+  </select>
+    <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+    from memberinfo
+    where membername = #{memberName}
+  </select>
+    <select id="findPageByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + _parameter.memberName + '%'" />
+        select u.*
+         from memberinfo u
+        where u.membername like #{pattern}
+    </select>
+
+
+ <!--   <select id="findPageByNameAndEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <bind name="patternName" value="'%' + _parameter.name + '%'" />
+        <bind name="patternEmail" value="'%' + _parameter.email + '%'" />
+        select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
+        where u.name like #{patternName}
+        and u.email like #{patternEmail}
+    </select>-->
+
+</mapper>

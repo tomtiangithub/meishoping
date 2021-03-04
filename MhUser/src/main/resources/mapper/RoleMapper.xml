@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.RoleDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.Role">
+        <id column="roleid" property="roleId" jdbcType="INTEGER"/>
+        <result column="rolename" property="roleName" jdbcType="VARCHAR"/>
+        <result column="rolestatus" property="roleStatus" jdbcType="VARCHAR"/>
+        <result column="roleremark" property="roleRemark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        roleid,
+        rolename,
+        rolestatus,
+        roleremark
+    </sql>
+    <insert id="saveRole" parameterType="com.meihong.entity.Role">
+        insert into role (
+            roleid,
+            rolename,
+            rolestatus,
+            roleremark
+        )
+        values (
+            #{roleId,jdbcType=INTEGER},
+            #{roleName,jdbcType=VARCHAR},
+            #{roleStatus,jdbcType=VARCHAR},
+            #{roleRemark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.meihong.entity.Role">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                roleid,
+            </if>
+            <if test="roleName != null">
+                rolename,
+            </if>
+            <if test="roleStatus != null">
+                rolestatus,
+            </if>
+            <if test="roleRemark != null">
+                roleremark
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleStatus != null">
+                #{roleStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="roleRemark != null">
+                #{roleRemark,jdbcType=VARCHAR}
+            </if>
+
+        </trim>
+    </insert>
+
+    <delete id="delRoleById" parameterType="int">
+        delete from role
+        where roleid = #{roleId,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateRoleById" parameterType="com.meihong.entity.Role">
+        update role
+        set
+         rolename = #{roleName,jdbcType=VARCHAR},
+         rolestatus = #{roleStatus,jdbcType=VARCHAR},
+         roleRemark = #{roleRemark,jdbcType=VARCHAR}
+        where roleid = #{roleId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.meihong.entity.Role">
+        update role
+        <set>
+
+            <if test="roleName != null">
+                rolename = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleStatus != null">
+                rolestatus = #{roleStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="roleRemark != null">
+                roleRemark = #{roleRemark,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where roleid = #{roleId,jdbcType=INTEGER}
+    </update>
+
+    <select id="findRoleById"  parameterType="int" resultType="com.meihong.entity.Role">
+        select
+        <include refid="Base_Column_List" />
+        from role
+        where roleid = #{roleId,jdbcType=INTEGER}
+    </select>
+
+    <select id="findAllRole"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role
+    </select>
+
+    <select id="findPageByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + _parameter.roleName + '%'" />
+        select
+        <include refid="Base_Column_List" />
+        from role
+        where rolename like #{pattern}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role
+        where rolename = #{roleName,jdbcType=VARCHAR}
+    </select>
+</mapper>

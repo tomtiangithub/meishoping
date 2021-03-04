@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.LogicCompanyDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.LogicCompany">
+        <id column="deliverycompanycode" property="deliveryCompanyCode" jdbcType="VARCHAR"/>
+        <result column="deliverycompanyname" property="deliveryCompanyName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        deliverycompanycode,
+        deliverycompanyname
+    </sql>
+
+    <insert id="saveLogicCompany" parameterType="com.meihong.entity.LogicCompany">
+        insert into deliverycompany (
+        deliverycompanycode,
+        deliverycompanyname
+        )
+        values (
+        #{deliveryCompanyCode,jdbcType=VARCHAR},
+        #{deliveryCompanyName,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="delLogicCompanyById" parameterType="String">
+        delete from deliverycompany
+        where deliverycompanycode =  #{deliveryCompanyCode,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateLogicCompanyById" parameterType="com.meihong.entity.Area">
+        update deliverycompany
+        set deliverycompanyname = #{deliveryCompanyName,jdbcType=VARCHAR}
+        where deliverycompanycode =  #{deliveryCompanyCode,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findLogicCompanyById"  parameterType="String" resultType="com.meihong.entity.Area">
+        select
+        <include refid="Base_Column_List" />
+        from deliverycompany
+        where deliverycompanycode =  #{deliveryCompanyCode,jdbcType=VARCHAR}
+
+    </select>
+
+    <select id="findAllLogicCompany"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from deliverycompany
+    </select>
+</mapper>

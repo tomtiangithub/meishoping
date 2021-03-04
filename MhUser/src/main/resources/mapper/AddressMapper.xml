@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.AddressDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.Address">
+        <id column="addressid" property="addressId" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberId" jdbcType="INTEGER"/>
+        <result column="provincecode" property="provinceCode" jdbcType="VARCHAR"/>
+        <result column="citycode" property="cityCode" jdbcType="VARCHAR"/>
+        <result column="countycode" property="countyCode" jdbcType="VARCHAR"/>
+        <result column="areaaddress" property="areaAddress" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="consignee" property="consignee" jdbcType="VARCHAR"/>
+        <result column="consigneenumber" property="consigneeNumber" jdbcType="VARCHAR"/>
+        <result column="isdefault" property="isDefault" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        memberid,
+        addressid,
+        provincecode,
+        citycode,
+        countycode,
+        areaaddress,
+        address,
+        consignee,
+        consigneenumber,
+        isdefault
+   </sql>
+
+  <insert id="saveAddress" parameterType="com.meihong.entity.Address">
+    insert into address
+          <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="addressId != null">
+                  addressid,
+          </if>
+          <if test="memberId != null">
+            memberid,
+          </if>
+          <if test="provinceCode != null">
+          provincecode,
+          </if>
+          <if test="cityCode != null">
+          citycode,
+          </if>
+          <if test="countyCode != null">
+          countycode,
+          </if>
+          <if test="areaAddress != null">
+          areaaddress,
+          </if>
+          <if test="address != null">
+          address,
+          </if>
+          <if test="consignee != null">
+          consignee,
+          </if>
+          <if test="consigneeNumber != null">
+          consigneenumber,
+          </if>
+          <if test="isDefault != null">
+          isdefault
+          </if>
+          </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="addressId != null">
+              #{addressId,jdbcType=INTEGER},
+          </if>
+           <if test="memberId != null">
+               #{memberId,jdbcType=INTEGER},
+           </if>
+
+          <if test="provinceCode != null">
+            #{provinceCode,jdbcType=VARCHAR},
+          </if>
+          <if test="cityCode != null">
+            #{cityCode,jdbcType=VARCHAR},
+          </if>
+          <if test="countyCode != null">
+            #{countyCode,jdbcType=VARCHAR},
+          </if>
+          <if test="areaAddress != null">
+            #{areaAddress,jdbcType=VARCHAR},
+          </if>
+          <if test="address != null">
+            #{address,jdbcType=VARCHAR},
+          </if>
+          <if test="consignee != null">
+            #{consignee,jdbcType=VARCHAR},
+          </if>
+          <if test="consigneeNumber != null">
+            #{consigneeNumber,jdbcType=TINYINT},
+          </if>
+          <if test="isDefault != null">
+            #{isDefault,jdbcType=BIGINT}
+          </if>
+
+      </trim>
+  </insert>
+  <delete id="delAddressById" parameterType="int">
+    delete from address
+    where addressid = #{addressId,jdbcType=INTEGER}
+  </delete>
+
+   <update id="updateAddressById" parameterType="com.meihong.entity.Address">
+        update address
+        set name = #{name,jdbcType=VARCHAR},
+          provincecode = #{provinceCode,jdbcType=VARCHAR},
+          citycode = #{cityCode,jdbcType=VARCHAR},
+          countycode = #{countyCode,jdbcType=VARCHAR},
+          areaaddress = #{areaAddress,jdbcType=VARCHAR},
+          address = #{address,jdbcType=VARCHAR},
+          consignee = #{consignee,jdbcType=VARCHAR},
+          consigneenumber = #{consigneeNumber,jdbcType=TINYINT},
+          isdefault = #{isDefault,jdbcType=BIGINT}
+        where addressid = #{addressId,jdbcType=BIGINT}
+  </update>
+
+
+  <update id="updateAddrByMid" parameterType="int">
+        update address
+        set isdefault = 0
+        where memberid = #{memberId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateAddressByAddr" parameterType="com.meihong.entity.Address">
+        update address
+        set isdefault = 1
+        where
+         memberid = #{memberId,jdbcType=INTEGER}
+         and areaaddress = #{areaAddress,jdbcType=VARCHAR}
+         and address = #{address,jdbcType=VARCHAR}
+         and consignee = #{consignee,jdbcType=VARCHAR}
+         and consigneenumber = #{consigneeNumber,jdbcType=TINYINT}
+  </update>
+
+
+  <select id="findAddressById"  parameterType="int" resultType="com.meihong.entity.Address">
+        select
+        <include refid="Base_Column_List" />
+        from address
+        where addressid =#{addressId}
+
+  </select>
+
+  <select id="findAllAddress"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from address
+  </select>
+
+  <select id="findAddressByMid"  parameterType="int"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from address
+        where memberid =#{memberId}
+  </select>
+
+   <select id="findAddrDef"  parameterType="com.meihong.entity.Address" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from address
+        where memberid =#{memberId}
+        and   isdefault = #{isDefault,jdbcType=BIGINT}
+   </select>
+
+</mapper>
