@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.MemberRoleDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.MemberRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberId" jdbcType="INTEGER"/>
+        <result column="roleid" property="roleId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        memberid,
+        roleid
+    </sql>
+
+    <insert id="saveMemberRole" parameterType="com.meihong.entity.MemberRole">
+        insert into memberrole (
+        id,
+        memberid,
+        roleid
+        )
+        values (
+        #{id,jdbcType=INTEGER},
+        #{memberId,jdbcType=INTEGER},
+        #{roleId,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <delete id="deleMemberRoleById" parameterType="int">
+        delete from memberrole
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateMemberRoleById" parameterType="com.meihong.entity.MemberRole">
+        update memberrole
+        set memberid = #{memberId,jdbcType=INTEGER},
+        roleid =#{roleid,jdbcType=INTEGER},
+        where memberid = #{memberId,jdbcType=INTEGER}
+        AND roleid = #{roleid,jdbcType=INTEGER}
+    </update>
+
+    <select id="findMemberRoleById"  parameterType="int" resultType="com.meihong.entity.MemberRole">
+        select
+        <include refid="Base_Column_List" />
+        from memberrole
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findAllMemberRole"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from memberrole
+    </select>
+</mapper>

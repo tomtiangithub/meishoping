@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meihong.dao.MenuDao">
+
+    <resultMap id="BaseResultMap" type="com.meihong.entity.Menu">
+        <id column="menuid" property="menuId" jdbcType="INTEGER"/>
+        <result column="menuname" property="menuName" jdbcType="VARCHAR"/>
+        <result column="menuurl" property="menuUrl" jdbcType="VARCHAR"/>
+        <result column="menustatus" property="menuStatus" jdbcType="VARCHAR"/>
+        <result column="parentmenuid" property="parentMenuid" jdbcType="BIGINT"/>
+        <result column="menuindex" property="menuIndex" jdbcType="BIGINT"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        menuid,
+        menuname,
+        menuurl,
+        menustatus,
+        parentmenuid,
+        menuindex,
+        perms,
+        type,
+        icon
+
+    </sql>
+
+    <insert id="saveMenu" parameterType="com.meihong.entity.Menu">
+        insert into menu (
+            menuid,
+            menuname,
+            menuurl,
+            menustatus,
+            parentmenuid,
+            menuindex,
+            perms,
+            type,
+            icon
+        )
+        values (
+            #{menuId,jdbcType=INTEGER},
+            #{menuName,jdbcType=VARCHAR},
+            #{menuUrl,jdbcType=VARCHAR},
+            #{menuStatus,jdbcType=VARCHAR},
+            #{parentMenuid,jdbcType=BIGINT},
+            #{menuIndex,jdbcType=BIGINT},
+            #{perms,jdbcType=VARCHAR},
+            #{type,jdbcType=INTEGER},
+            #{icon,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="delMenuById" parameterType="int">
+        delete from menu
+        where menuid = #{menuId,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateMenuById" parameterType="com.meihong.entity.Menu">
+        update menu
+        set name = #{name,jdbcType=VARCHAR},
+            menuid = #{menuId,jdbcType=INTEGER},
+            menuname = #{menuName,jdbcType=VARCHAR},
+            menuurl = #{menuUrl,jdbcType=VARCHAR},
+            menustatus = #{menuStatus,jdbcType=VARCHAR},
+            parentmenuid= #{parentMenuid,jdbcType=BIGINT},
+            menuindex = #{menuIndex,jdbcType=BIGINT}
+            perms =   #{perms,jdbcType=VARCHAR},
+            type =   #{type,jdbcType=INTEGER},
+            icon =   #{icon,jdbcType=VARCHAR}
+
+         where menuid = #{menuId,jdbcType=INTEGER}
+    </update>
+
+    <select id="findMenuById"  parameterType="int" resultType="com.meihong.entity.Menu">
+        select
+        <include refid="Base_Column_List" />
+        from menu
+        where menuid =#{menuId}
+
+    </select>
+
+    <select id="findAllMenu"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from menu
+    </select>
+</mapper>

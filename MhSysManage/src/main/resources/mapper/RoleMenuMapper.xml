@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <mapper namespace="com.meihong.dao.RoleMenuDao">
+            <resultMap id="BaseResultMap" type="com.meihong.entity.RoleMenu">
+                <id column="id" property="id" jdbcType="INTEGER"/>
+                <result column="rid" property="memberId" jdbcType="INTEGER"/>
+                <result column="mid" property="mid" jdbcType="VARCHAR"/>
+            </resultMap>
+
+            <sql id="Base_Column_List">
+                id,
+                rid,
+                mid
+            </sql>
+
+            <insert id="saveRoleMenu" parameterType="com.meihong.entity.RoleMenu">
+                insert into rolemenu (
+                    id,
+                    rid,
+                    mid
+                )
+                values (
+                #{id,jdbcType=INTEGER},
+                #{rid,jdbcType=INTEGER},
+                #{mid,jdbcType=INTEGER}
+                )
+            </insert>
+
+            <delete id="delRoleMenuById" parameterType="int">
+                delete from rolemenu
+                where id = #{id,jdbcType=INTEGER}
+            </delete>
+
+            <update id="updateRoleMenuById" parameterType="com.meihong.entity.RoleMenu">
+                update rolemenu
+                set rid = #{name,jdbcType=INTEGER},
+                mid = #{mid,jdbcType=INTEGER}
+                where id = #{id,jdbcType=INTEGER}
+            </update>
+
+            <select id="findRoleMenuById"  parameterType="int" resultType="com.meihong.entity.RoleMenu">
+                select
+                <include refid="Base_Column_List" />
+                from rolemenu
+                where id = #{id,jdbcType=INTEGER}
+
+            </select>
+
+            <select id="findAllRoleMenu"  resultMap="BaseResultMap">
+                select
+                <include refid="Base_Column_List" />
+                from rolemenu
+            </select>
+        </mapper>
